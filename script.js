@@ -247,6 +247,8 @@ function initSoundToggle() {
 // FIX 2: window.scrollTo pakai behavior:"auto" supaya tidak bentrok
 //        dengan `html { scroll-behavior: smooth }` di CSS — kalau tidak,
 //        muncul jitter/getar kecil karena 2 lapis smoothing tabrakan.
+// FIX 3: khusus video -> section berikutnya ("ayat"), scroll dilakukan
+//        SEKALI langsung penuh (bukan bertahap seperti section lain).
 // ================================================================
 function initAutoAdvance() {
   const STOP_BEFORE_ID = "ucapan"; // auto-scroll berhenti begitu sampai section ini (rsvp selesai)
@@ -314,7 +316,23 @@ function initAutoAdvance() {
     }
 
     const beginLoop = () => {
-      if (!userTookControl) timer = setTimeout(loop, 2000); // jeda 2 detik setelah video selesai
+      if (userTookControl) return;
+      timer = setTimeout(async () => {
+        if (userTookControl) return;
+
+        // Khusus video -> section berikutnya: scroll LANGSUNG dalam satu kali
+        // gerakan penuh (bukan bertahap seperti section lain).
+        const nextSection = document.getElementById("ayat"); // section tepat setelah video
+        if (nextSection) {
+          const targetY = nextSection.offsetTop;
+          const deltaY = targetY - window.scrollY;
+          await smoothScrollBy(deltaY, SCROLL_DURATION);
+          if (userTookControl) return;
+        }
+
+        // Setelah sampai di section "ayat", baru lanjut pakai sistem bertahap biasa
+        timer = setTimeout(loop, STEP_DELAY);
+      }, 2000); // jeda 2 detik setelah video selesai
     };
 
     const obs = new IntersectionObserver(
@@ -335,7 +353,6 @@ function initAutoAdvance() {
 
   startWhenVideoReady();
 }
-
 // ================================================================
 // COUNTDOWN SECTION
 // ================================================================

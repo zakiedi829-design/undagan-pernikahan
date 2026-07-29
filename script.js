@@ -270,7 +270,7 @@ function initAutoAdvance() {
     userTookControl = true;
     clearTimeout(timer);
   }
-  ["wheel", "touchstart", "keydown"].forEach((evt) => {
+  ["wheel", "touchmove", "keydown"].forEach((evt) => {
     window.addEventListener(evt, stopAuto, { passive: true });
   });
 

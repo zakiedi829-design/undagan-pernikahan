@@ -83,9 +83,6 @@ function initScrollAnimations(dividers) {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Variasi animasi reveal per elemen, berdasarkan atribut data-reveal
-  // (fade-up default, fade-left, fade-right, scale) — supaya tiap section
-  // terasa beda, tidak monoton fade-up semua.
   document.querySelectorAll("[data-reveal]").forEach((el) => {
     const type = el.dataset.reveal || "fade-up";
     let fromVars = { opacity: 0, y: 28 };
@@ -108,7 +105,6 @@ function initScrollAnimations(dividers) {
     });
   });
 
-  // Stagger reveal untuk grup elemen (mis. grid foto Moments)
   document.querySelectorAll("[data-reveal-group]").forEach((group) => {
     gsap.fromTo(
       group.children,
@@ -128,7 +124,6 @@ function initScrollAnimations(dividers) {
     );
   });
 
-  // Songket-line draw (stroke-dasharray reveal) tiap pembatas section
   dividers.forEach((el) => {
     const path = el.querySelector("path");
     if (!path) return;
@@ -147,15 +142,10 @@ function initScrollAnimations(dividers) {
       },
     });
   });
-
-  // Catatan: parallax hero sudah ditangani CSS (animasi Ken Burns pada .hero__layer--bg),
-  // sengaja tidak dobel-animasikan lewat GSAP supaya transform tidak saling menimpa.
 }
 
 // ================================================================
 // HERO INTRO — animasi saat halaman pertama kali dibuka (bukan scroll-based)
-// Background muncul duluan, lalu beberapa milidetik kemudian "Dear" box
-// dan teks "The wedding of / N & Y / nama / tanggal" muncul menyusul.
 // ================================================================
 function initHeroIntro() {
   if (prefersReducedMotion || typeof gsap === "undefined") {
@@ -169,7 +159,7 @@ function initHeroIntro() {
   const guest = document.querySelector('[data-reveal-intro="scale"]');
   const textItems = document.querySelectorAll(".hero__text-card [data-reveal-intro]");
 
-  const tl = gsap.timeline({ delay: 0.4 }); // <- jeda 400ms sebelum teks mulai muncul
+  const tl = gsap.timeline({ delay: 0.4 });
 
   tl.fromTo(
     guest,
@@ -179,12 +169,15 @@ function initHeroIntro() {
     textItems,
     { opacity: 0, y: 28 },
     { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power2.out" },
-    "-=0.4" // sedikit overlap dengan animasi "Dear" biar tidak kaku
+    "-=0.4"
   );
 }
 
 // ================================================================
 // HERO — buka undangan + trigger musik (bagian 10)
+// FIX: refresh + scrollIntoView dibungkus requestAnimationFrame supaya
+// browser mobile (terutama Safari iOS) sempat "mencerna" perubahan
+// layout (unlock overflow) dulu sebelum scroll dieksekusi.
 // ================================================================
 function initHeroOpen() {
   const body = document.body;
@@ -199,27 +192,25 @@ function initHeroOpen() {
     body.classList.remove("is-locked");
     body.classList.add("is-open");
 
-    // Refresh posisi ScrollTrigger DULU sebelum scroll — supaya posisi section
-    // video sudah akurat (sebelumnya body masih terkunci/overflow hidden,
-    // jadi posisi lama belum tentu benar). Kalau refresh dipanggil SETELAH
-    // scrollIntoView, animasi smooth-scroll-nya keburu keinterupsi/reset.
-    if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
-
     // Browser modern butuh trigger klik untuk autoplay audio/video — tombol ini triggernya
     audio.play().catch(() => {
       // Jika browser tetap memblokir (kebijakan autoplay lebih ketat), abaikan diam-diam;
       // tamu masih bisa menyalakan lewat tombol speaker mengambang.
     });
 
-    // Scroll halus ke section video setelah undangan "dimulai"
-    document.getElementById("video")?.scrollIntoView({ behavior: "smooth" });
+    // Kasih browser 1 frame dulu untuk "mencerna" perubahan layout (unlock overflow)
+    // sebelum refresh + scroll dijalankan — banyak browser mobile mengabaikan
+    // scrollIntoView kalau dipanggil terlalu cepat setelah class berubah.
+    requestAnimationFrame(() => {
+      if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
+      document.getElementById("video")?.scrollIntoView({ behavior: "smooth" });
+    });
 
     // Delay video play agar scroll sudah selesai terlebih dahulu
     setTimeout(() => {
       if (introVideo) {
-        introVideo.muted = false; // gesture klik ini sudah cukup untuk izinkan audio video juga
+        introVideo.muted = false;
         introVideo.play().catch(() => {
-          // fallback: kalau browser tetap menolak audio video autoplay, coba mode mute
           introVideo.muted = true;
           introVideo.play().catch(() => {});
         });
@@ -250,18 +241,18 @@ function initSoundToggle() {
 
 // ================================================================
 // AUTO-ADVANCE SCROLL (semi-otomatis) — bagian 11
-// Scroll dilakukan bertahap per 1 layar (bukan loncat antar-section),
-// jadi section yang lebih tinggi dari 1 layar (mis. profil) tetap
-// terlewati sepenuhnya, tidak ada bagian yang ke-skip.
-// Animasi scroll pakai easing custom (bukan scrollIntoView bawaan browser)
-// supaya gerakannya halus & perlahan, bukan "loncat/maksa".
-// Berhenti otomatis begitu tamu scroll/swipe/keyboard sendiri (permanen).
+// Scroll dilakukan bertahap per layar (bukan loncat antar-section).
+// FIX 1: "touchstart" -> "touchmove" supaya tap tombol tidak dianggap
+//        scroll manual (touchstart terpicu bahkan cuma dengan nge-tap).
+// FIX 2: window.scrollTo pakai behavior:"auto" supaya tidak bentrok
+//        dengan `html { scroll-behavior: smooth }` di CSS — kalau tidak,
+//        muncul jitter/getar kecil karena 2 lapis smoothing tabrakan.
 // ================================================================
 function initAutoAdvance() {
   const STOP_BEFORE_ID = "ucapan"; // auto-scroll berhenti begitu sampai section ini (rsvp selesai)
   const STEP_DELAY = 1500;         // ms — jeda sebelum tiap langkah scroll (bisa diubah)
   const SCROLL_DURATION = 1800;    // ms — durasi animasi tiap langkah scroll (biar halus)
-  const STEP_FRACTION = 0.3;      // seberapa jauh tiap langkah (92% tinggi layar, sedikit overlap)
+  const STEP_FRACTION = 0.3;       // seberapa jauh tiap langkah (fraksi tinggi layar)
 
   let userTookControl = false;
   let timer = null;
@@ -288,7 +279,11 @@ function initAutoAdvance() {
       function step(now) {
         if (userTookControl) return resolve();
         const progress = Math.min((now - startTime) / duration, 1);
-        window.scrollTo(0, startY + (targetY - startY) * easeInOutCubic(progress));
+        window.scrollTo({
+          top: startY + (targetY - startY) * easeInOutCubic(progress),
+          left: 0,
+          behavior: "auto", // penting: matikan smoothing bawaan browser, biar tidak bentrok dengan easing manual di atas
+        });
         if (progress < 1) requestAnimationFrame(step);
         else resolve();
       }
@@ -340,6 +335,7 @@ function initAutoAdvance() {
 
   startWhenVideoReady();
 }
+
 // ================================================================
 // COUNTDOWN SECTION
 // ================================================================
@@ -385,7 +381,7 @@ function initSaveCalendar() {
 
   btn.addEventListener("click", () => {
     const start = new Date(grid.dataset.weddingDate);
-    const end = new Date(start.getTime() + 3 * 60 * 60 * 1000); // asumsi durasi acara 3 jam
+    const end = new Date(start.getTime() + 3 * 60 * 60 * 1000);
 
     const toGCalFormat = (d) => d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
@@ -394,7 +390,7 @@ function initSaveCalendar() {
       text: "Pernikahan Nadia & Rachman",
       dates: `${toGCalFormat(start)}/${toGCalFormat(end)}`,
       details: "Dengan penuh syukur, kami mengundang Anda untuk turut mendoakan dan menyaksikan hari bahagia kami.",
-      location: "Surabaya, Jawa Timur", // GANTI: alamat lengkap lokasi akad/resepsi asli
+      location: "Surabaya, Jawa Timur",
     });
 
     window.open(`https://www.google.com/calendar/render?${params.toString()}`, "_blank", "noopener,noreferrer");
@@ -560,7 +556,7 @@ function initUcapanList() {
       ucapanAllItems = data
         ? Object.values(data).sort((a, b) => (b.created_at || 0) - (a.created_at || 0))
         : [];
-      ucapanCurrentPage = 1; // data baru masuk -> kembali ke halaman terbaru
+      ucapanCurrentPage = 1;
       renderUcapanPage();
     },
     (error) => {

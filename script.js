@@ -247,6 +247,99 @@ function initSoundToggle() {
     icon.src = nowMuted ? "assets/images/speaker-off.svg" : "assets/images/speaker-on.svg";
   });
 }
+
+// ================================================================
+// AUTO-ADVANCE SCROLL (semi-otomatis) — bagian 11
+// Scroll dilakukan bertahap per 1 layar (bukan loncat antar-section),
+// jadi section yang lebih tinggi dari 1 layar (mis. profil) tetap
+// terlewati sepenuhnya, tidak ada bagian yang ke-skip.
+// Animasi scroll pakai easing custom (bukan scrollIntoView bawaan browser)
+// supaya gerakannya halus & perlahan, bukan "loncat/maksa".
+// Berhenti otomatis begitu tamu scroll/swipe/keyboard sendiri (permanen).
+// ================================================================
+function initAutoAdvance() {
+  const STOP_BEFORE_ID = "ucapan"; // auto-scroll berhenti begitu sampai section ini (rsvp selesai)
+  const STEP_DELAY = 1500;         // ms — jeda sebelum tiap langkah scroll (bisa diubah)
+  const SCROLL_DURATION = 1800;    // ms — durasi animasi tiap langkah scroll (biar halus)
+  const STEP_FRACTION = 0.3;      // seberapa jauh tiap langkah (92% tinggi layar, sedikit overlap)
+
+  let userTookControl = false;
+  let timer = null;
+
+  function stopAuto() {
+    userTookControl = true;
+    clearTimeout(timer);
+  }
+  ["wheel", "touchstart", "keydown"].forEach((evt) => {
+    window.addEventListener(evt, stopAuto, { passive: true });
+  });
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function smoothScrollBy(deltaY, duration) {
+    return new Promise((resolve) => {
+      const startY = window.scrollY;
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      const targetY = Math.min(startY + deltaY, maxY);
+      const startTime = performance.now();
+
+      function step(now) {
+        if (userTookControl) return resolve();
+        const progress = Math.min((now - startTime) / duration, 1);
+        window.scrollTo(0, startY + (targetY - startY) * easeInOutCubic(progress));
+        if (progress < 1) requestAnimationFrame(step);
+        else resolve();
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  async function loop() {
+    if (userTookControl) return;
+
+    const stopEl = document.getElementById(STOP_BEFORE_ID);
+    const stopY = stopEl ? stopEl.offsetTop : document.documentElement.scrollHeight;
+
+    if (window.scrollY + window.innerHeight >= stopY) return; // sudah sampai batas berhenti
+
+    await smoothScrollBy(window.innerHeight * STEP_FRACTION, SCROLL_DURATION);
+    if (userTookControl) return;
+
+    timer = setTimeout(loop, STEP_DELAY);
+  }
+
+  function startWhenVideoReady() {
+    const videoSection = document.getElementById("video");
+    const introVideo = document.querySelector("#video video");
+    if (!videoSection || !introVideo) {
+      loop();
+      return;
+    }
+
+    const beginLoop = () => {
+      if (!userTookControl) timer = setTimeout(loop, 2000); // jeda 2 detik setelah video selesai
+    };
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            obs.disconnect();
+            introVideo.ended
+              ? beginLoop()
+              : introVideo.addEventListener("ended", beginLoop, { once: true });
+          }
+        });
+      },
+      { threshold: [0.6] }
+    );
+    obs.observe(videoSection);
+  }
+
+  startWhenVideoReady();
+}
 // ================================================================
 // COUNTDOWN SECTION
 // ================================================================
@@ -490,6 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroIntro();
   initHeroOpen();
   initSoundToggle();
+  initAutoAdvance();
   initCountdown();
   initSaveCalendar();
   initCopyAccount();

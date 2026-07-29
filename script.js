@@ -252,7 +252,7 @@ function initSoundToggle() {
 // ================================================================
 function initAutoAdvance() {
   const STOP_BEFORE_ID = "ucapan"; // auto-scroll berhenti begitu sampai section ini (rsvp selesai)
-  const STEP_DELAY = 1000;         // ms — jeda sebelum tiap langkah scroll (bisa diubah)
+  const STEP_DELAY = 700;         // ms — jeda sebelum tiap langkah scroll (bisa diubah)
   const SCROLL_DURATION = 1800;    // ms — durasi animasi tiap langkah scroll (biar halus)
   const STEP_FRACTION = 0.3;       // seberapa jauh tiap langkah (fraksi tinggi layar)
 

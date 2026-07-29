@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO — bagian 14 -->
+<title>Undangan Pernikahan Nadia &amp; Rachman</title>
+<meta name="description" content="Undangan pernikahan Nadia & Rachman, Sabtu 5 September 2026. Dengan penuh syukur, kami mengundang Anda untuk hadir di hari bahagia kami.">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Open Graph — preview saat dibagikan di WhatsApp -->
+<meta property="og:title" content="Undangan Pernikahan Nadia & Rachman">
+<meta property="og:description" content="Jumat—Sabtu, 4—5 September 2026 — Dengan penuh syukur kami mengundang Anda untuk turut mendoakan dan menyaksikan hari bahagia kami.">
+<meta property="og:image" content="assets/images/hero-bg.jpg">
+<meta property="og:type" content="website">
+
+<!-- Google Fonts: Cormorant Garamond (display), Jost (body), Amiri (Arab) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Kontrol musik mengambang — selalu terlihat setelah undangan dibuka -->
+<button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true" aria-label="Matikan musik">
+  <img src="assets/images/speaker-on.svg" alt="" id="soundIcon">
+</button>
+
+<audio id="backsound" src="assets/music/backsound.mp3" loop preload="none"></audio>
+
+<!-- ============================================================ -->
+<!-- 1. HERO SECTION -->
+<!-- ============================================================ -->
+<section id="hero" class="hero">
+  <video class="hero__layer hero__layer--bg" autoplay muted loop playsinline poster="assets/images/hero-bg.jpg">
+    <source src="assets/video/hero-bg.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content">
+    <div class="hero__guest" data-reveal-intro="scale">
+      <p class="hero__guest-label">Dear :</p>
+      <p class="hero__guest-name" id="guestName">Tamu Undangan</p>
+      <p class="hero__guest-note">Please be a part of our happiest moment.</p>
+    </div>
+
+    <div class="hero__text-card">
+      <p class="eyebrow" data-reveal-intro="fade-up">The wedding of</p>
+      <h1 class="hero__monogram" data-reveal-intro="fade-up">N <span class="hero__amp">&amp;</span> Y</h1>
+      <p class="hero__names" data-reveal-intro="fade-up">Nadia <span class="hero__names-sep">&amp;</span> Yoesuf</p>
+      <p class="hero__date" data-reveal-intro="fade-up">04 &middot; 09 &middot; 2026</p>
+    </div>
+
+    <button id="openInvitation" class="btn btn--primary hero__open" type="button">
+      Buka Undangan
+    </button>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+<!-- ============================================================ -->
+<!-- 2. VIDEO SECTION (opsional) -->
+<!-- ============================================================ -->
+<section id="video" class="video-section">
+  <div class="video-frame" data-reveal="zoom-in">
+    <video
+      controls
+      playsinline
+      preload="auto"
+      
+    >
+      <source src="assets/video/wedding-video.mp4" type="video/mp4">
+      Browser Anda tidak mendukung pemutaran video.
+    </video>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 3. AYAT SECTION -->
+<!-- ============================================================ -->
+<section id="ayat" class="ayat-section">
+  <div class="section-inner ayat__inner">
+    <div class="ayat__card" data-reveal="scale">
+      <p class="ayat__arabic" lang="ar" dir="rtl">
+        وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
+      </p>
+      <p class="ayat__translation">
+        Dan di antara tanda-tanda kebesaran-Nya, diciptakan-Nya untukmu pasangan dari jenismu sendiri
+        agar hatimu merasa tenteram bersamanya, serta ditumbuhkan-Nya rasa kasih dan sayang di antara kalian.
+        Sesungguhnya pada yang demikian itu benar-benar terdapat tanda kebesaran Allah bagi orang-orang yang mau berpikir.
+      </p>
+      <p class="ayat__ref">QS. Ar-Rum (30) : 21</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 4. PROFILE MEMPELAI -->
+<!-- ============================================================ -->
+<section id="profil" class="profil-section">
+  <!-- bunga dekoratif melayang di sekeliling section (motif melati, mengacu foto hero) -->
+  <div class="profil__florals" aria-hidden="true">
+    <span class="profil__flower profil__flower--1">&#10047;</span>
+    <span class="profil__flower profil__flower--2">&#10047;</span>
+    <span class="profil__flower profil__flower--3">&#10047;</span>
+    <span class="profil__flower profil__flower--4">&#10047;</span>
+  </div>
+
+  <div class="section-inner" data-reveal="fade-left">
+    <p class="eyebrow">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
+    <h2 class="section-title">Nadia &amp; Yoesuf</h2>
+    <p class="profil__intro">
+      Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.
+    </p>
+
+    <div class="profil__cards">
+      <article class="profil__card" data-reveal="fade-left">
+        <div class="profil__photo-wrap">
+          <div class="profil__photo-ornaments" aria-hidden="true">
+            <span class="profil__bird profil__bird--1">
+              <svg viewBox="0 0 64 28" role="img" aria-label="">
+                <path d="M8 16c8-11 18-13 29-10 4 1 8 3 10 6" />
+                <path d="M15 14l-8 4" />
+                <path d="M41 7c3-3 7-4 10-2" />
+                <path d="M35 12c2 0 4 1 6 2" />
+              </svg>
+            </span>
+            <span class="profil__petal profil__petal--1">✿</span>
+            <span class="profil__petal profil__petal--2">✿</span>
+          </div>
+          <div class="profil__photo">
+            <img src="assets/images/bride-illustration-placeholder.png" alt="Ilustrasi Nadia Aprilia, mempelai wanita" loading="lazy">
+            <!-- GANTI: assets/images/bride-illustration-placeholder.svg -> assets/images/bride-illustration.png
+                 (ilustrasi/kartun wajah, BUKAN foto asli — lihat catatan bagian 2 master prompt) -->
+          </div>
+        </div>
+        <h3 class="profil__name">Nadia Aprilia, M.Pd</h3>
+       <p class="profil__desc">
+  <span class="profil__desc-label">Putri dari</span>
+  <span class="profil__desc-parents">Bapak H. Edi Yuparnis, S.Ag<br>&amp; Ibu Hj. Ernariza, S.Ag</span>
+</p>
+        <!-- GANTI: href di bawah -> link IG asli mempelai wanita -->
+        <a
+          class="profil__ig"
+          href="https://www.instagram.com/apr.nadia?igsh=MXNnMm14MGI0d3d0Mg=="
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram Nadia Aprilia"
+        >
+          <img src="assets/images/ig-icon.svg" alt="">
+          <span>@apr.nadia</span>
+        </a>
+      </article>
+
+      <p class="profil__and" aria-hidden="true">&amp;</p>
+
+      <article class="profil__card" data-reveal="fade-left">
+        <div class="profil__photo-wrap">
+          <div class="profil__photo-ornaments" aria-hidden="true">
+            <span class="profil__bird profil__bird--2">
+              <svg viewBox="0 0 64 28" role="img" aria-label="">
+                <path d="M8 16c8-11 18-13 29-10 4 1 8 3 10 6" />
+                <path d="M15 14l-8 4" />
+                <path d="M41 7c3-3 7-4 10-2" />
+                <path d="M35 12c2 0 4 1 6 2" />
+              </svg>
+            </span>
+            <span class="profil__petal profil__petal--3">✿</span>
+            <span class="profil__petal profil__petal--4">✿</span>
+          </div>
+          <div class="profil__photo">
+            <img src="assets/images/groom-illustration-placeholder.png" alt="Ilustrasi Rachman Yoesuf Novrialdy, mempelai pria" loading="lazy">
+            <!-- GANTI: assets/images/groom-illustration-placeholder.svg -> assets/images/groom-illustration.png
+                 (ilustrasi/kartun wajah, BUKAN foto asli) -->
+          </div>
+        </div>
+        <h3 class="profil__name">Rachman Yoesuf Novrialdy, S.Ip</h3>
+        <p class="profil__desc">
+  <span class="profil__desc-label">Putra dari</span>
+  <span class="profil__desc-parents">Bapak Suhedi Efrizon<br>&amp; Ibu Anita</span>
+</p>
+        <!-- GANTI: href di bawah -> link IG asli mempelai pria -->
+        <a
+          class="profil__ig"
+          href="https://www.instagram.com/yusufrachman08?igsh=aXNzcnFid3I1MjFk"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram Rachman Yoesuf Novrialdy"
+        >
+          <img src="assets/images/ig-icon.svg" alt="">
+          <span>@yusufrachman08</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 5. COUNTDOWN SECTION -->
+<!-- ============================================================ -->
+<section id="countdown" class="countdown-section">
+  <div class="section-inner" data-reveal>
+    <p class="eyebrow">Menghitung Hari</p>
+    <h2 class="section-title">Menuju Hari Bahagia</h2>
+
+    <!-- data-wedding-date dibaca oleh script.js, GANTI ke tanggal akad/resepsi asli -->
+    <div class="countdown__grid" id="countdownGrid" data-wedding-date="2026-09-04T20:00:00+07:00">
+      <div class="countdown__box">
+        <span class="countdown__num" id="cdDays">00</span>
+        <span class="countdown__label">Hari</span>
+      </div>
+      <div class="countdown__box">
+        <span class="countdown__num" id="cdHours">00</span>
+        <span class="countdown__label">Jam</span>
+      </div>
+      <div class="countdown__box">
+        <span class="countdown__num" id="cdMinutes">00</span>
+        <span class="countdown__label">Menit</span>
+      </div>
+      <div class="countdown__box">
+        <span class="countdown__num" id="cdSeconds">00</span>
+        <span class="countdown__label">Detik</span>
+      </div>
+    </div>
+
+    <button id="saveCalendar" class="btn btn--outline countdown__save" type="button">
+      Save the Date
+    </button>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 6. WEDDING EVENT SECTION -->
+<!-- ============================================================ -->
+<section id="acara" class="acara-section">
+  <!-- kawanan burung terbang melintas (aksen dekoratif, mengacu foto hero) -->
+  <div class="acara__birds" aria-hidden="true">
+    <svg viewBox="0 0 40 20" class="acara__bird-flock">
+      <path class="acara__bird-path acara__bird-path--1" d="M0,10 Q5,4 10,10 Q15,4 20,10" fill="none" stroke="#2E2E2E" stroke-width="1.4" stroke-linecap="round"/>
+      <path class="acara__bird-path acara__bird-path--2" d="M0,6 Q4,1 8,6 Q12,1 16,6" fill="none" stroke="#2E2E2E" stroke-width="1.2" stroke-linecap="round"/>
+      <path class="acara__bird-path acara__bird-path--3" d="M0,14 Q3,10 6,14 Q9,10 12,14" fill="none" stroke="#2E2E2E" stroke-width="1" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- bunga dekoratif melayang di sekeliling section -->
+  <div class="acara__florals" aria-hidden="true">
+    <span class="acara__flower acara__flower--1">✿</span>
+    <span class="acara__flower acara__flower--2">✿</span>
+    <span class="acara__flower acara__flower--3">✿</span>
+    <span class="acara__flower acara__flower--4">✿</span>
+    <span class="acara__flower acara__flower--5">✿</span>
+  </div>
+
+  <div class="section-inner" data-reveal="fade-up">
+    <p class="eyebrow">Waktu &amp; Tempat</p>
+    <h2 class="section-title">Rangkaian Acara</h2>
+
+    <div class="acara__cards">
+      <article class="acara__card" data-reveal="fade-up">
+        <h3 class="acara__title">Akad Nikah</h3>
+        <p class="acara__date">Jumat, 4 September 2026</p>
+        <p class="acara__time">20.00 WIB &ndash; Selesai</p>
+        <p class="acara__place">
+          Jl. Bata Ujung, Simp. BPG
+          <br>Kota Pekanbaru
+        </p>
+        <!-- GANTI: href di bawah -> link Google Maps asli lokasi akad -->
+        <a
+          class="btn btn--outline acara__maps"
+          href="https://maps.app.goo.gl/ZCGrdZYaQpBmqHNo9"
+          target="_blank" rel="noopener noreferrer"
+        >
+          <img src="assets/images/gmaps-icon.svg" alt="">
+          Google Maps
+        </a>
+      </article>
+
+      <article class="acara__card" data-reveal="fade-up">
+        <h3 class="acara__title">Resepsi</h3>
+        <p class="acara__date">Sabtu, 5 September 2026</p>
+        <p class="acara__time">11.00 WIB &ndash; Selesai</p>
+        <p class="acara__place">
+          Jl. Bata Ujung, Simp. BPG
+          <br>Kota Pekanbaru
+        </p>
+        <!-- GANTI: href di bawah -> link Google Maps asli lokasi resepsi -->
+        <a
+          class="btn btn--outline acara__maps"
+          href="https://maps.app.goo.gl/ZCGrdZYaQpBmqHNo9"
+          target="_blank" rel="noopener noreferrer"
+        >
+          <img src="assets/images/gmaps-icon.svg" alt="">
+          Google Maps
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 6b. MOMENTS SECTION (galeri foto real — satu-satunya section yang
+     boleh pakai foto asli wajah mempelai, lihat aturan sensitif bagian 2) -->
+<!-- ============================================================ -->
+<section id="moments" class="moments-section">
+  <div class="section-inner section-inner--wide" data-reveal="fade-up">
+    <p class="eyebrow">Galeri</p>
+    <h2 class="section-title">Momen Kami</h2>
+    <p class="moments__intro">
+      Genggaman tangan ini adalah awal dari perjalanan panjang kami berdua
+    </p>
+
+    <div class="moments__grid" data-reveal-group="scale">
+      <!-- GANTI: 3 foto sesuai permintaan klien -> 1 landscape (tampil penuh di atas)
+           + 2 potret (berdampingan di bawah). Ganti src ke foto real klien. -->
+      <figure class="moments__item moments__item--wide">
+        <img src="assets/images/moments/moment-1-placeholder.jpeg" alt="Momen kebersamaan Nadia & Rachman 1" loading="lazy">
+      </figure>
+      <figure class="moments__item moments__item--tall">
+        <img src="assets/images/moments/moment-2-placeholder.jpeg" alt="Momen kebersamaan Nadia & Rachman 2" loading="lazy">
+      </figure>
+      <figure class="moments__item moments__item--tall">
+        <img src="assets/images/moments/moment-3-placeholder.jpeg" alt="Momen kebersamaan Nadia & Rachman 3" loading="lazy">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 7. LOVE STORY SECTION (gaya Referensi 2 — tanpa foto, murni teks) -->
+<!-- ============================================================ -->
+<section id="love-story" class="love-story-section">
+  <div class="section-inner" data-reveal="fade-left">
+    <p class="eyebrow">Kisah Kami</p>
+    <h2 class="section-title">Sekelumit Cerita</h2>
+
+    <ol class="timeline">
+      <li class="timeline__item" data-reveal="fade-left">
+        <span class="timeline__year">01</span>
+        <div class="timeline__body">
+          <h3>Sebuah Awal yang Sederhana</h3>
+          <p>Atas izin Allah SWT, perjalanan ini bermula dari perkenalan sederhana melalui
+            kebaikan seorang teman. Tiada yang kebetulan dalam takdir-Nya. Dari sapaan sederhana,
+            perlahan tumbuh rasa nyaman, tawa yang senada, dan obrolan panjang tentang masa depan
+            yang tak pernah disangka akan bermuara sejauh ini.</p>
+        </div>
+      </li>
+      <li class="timeline__item" data-reveal="fade-left">
+        <span class="timeline__year">02</span>
+        <div class="timeline__body">
+          <h3>Langkah Menuju Keyakinan</h3>
+          <p>Seiring berjalannya waktu, Allah mantapkan niat dan keyakinan di antara kami. Di
+            awal tahun, kami mengambil langkah baru yang lebih serius. Mengikat janji di hadapan
+            keluarga tercinta, menegaskan niat untuk saling menggenggam dan berjalan beriringan.</p>
+        </div>
+      </li>
+      <li class="timeline__item" data-reveal="fade-left">
+        <span class="timeline__year">03</span>
+        <div class="timeline__body">
+          <h3>Mengikat Janji Suci</h3>
+          <p>Muara dari setiap doa pun akhirnya berlabuh. Di hari yang penuh keberkahan,
+            disaksikan keluarga dan orang-orang tersayang, kami mengikrarkan janji suci
+            pernikahan. Memulai ibadah terpanjang, siap mengarungi bahtera rumah tangga yang
+            sakinah, mawaddah, warahmah hingga ke surga-Nya.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 8. KADO DIGITAL SECTION -->
+<!-- ============================================================ -->
+<section id="kado" class="kado-section">
+  <div class="section-inner" data-reveal>
+    <p class="eyebrow">Tanda Kasih</p>
+    <h2 class="section-title">Kado Digital</h2>
+    <p class="kado__intro">
+      Kehadiran serta doa restu Bapak/Ibu/Saudara/i adalah hadiah yang paling berarti bagi kami.
+      Namun jika ingin memberi tanda kasih secara digital, dapat melalui rekening berikut.
+    </p>
+
+    <div class="kado__cards">
+      <div class="kado__card" data-reveal="scale">
+        <p class="kado__bank">Bank Syariah Indonesia (BSI)</p>
+        <p class="kado__number" data-account="7152850306">7152 8503 06</p>
+        <p class="kado__owner">a.n. NADIA APRILIA</p>
+        <button class="btn btn--outline kado__copy" type="button" data-copy-target="7152850306">
+          Salin
+        </button>
+      </div>
+
+      <div class="kado__card" data-reveal="scale">
+        <p class="kado__bank">Bank Riau Kepri (BRK)</p>
+        <p class="kado__number" data-account="1044305144">1044 3051 44</p>
+        <p class="kado__owner">a.n. NADIA APRILIA</p>
+        <button class="btn btn--outline kado__copy" type="button" data-copy-target="1044305144">
+          Salin
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 9. RSVP SECTION (input) -->
+<!-- ============================================================ -->
+<section id="rsvp" class="rsvp-section">
+  <!-- siluet Lancang Kuning mengapung tipis di latar — pakai foto asli yang sama dengan hero -->
+  <img class="rsvp__boat-decor" src="assets/images/lancang-kuning.png" alt="" aria-hidden="true">
+
+  <div class="section-inner" data-reveal>
+    <p class="eyebrow">Konfirmasi Kehadiran</p>
+    <h2 class="section-title">RSVP</h2>
+
+    <form id="rsvpForm" class="rsvp-form" novalidate>
+      <div class="form-field">
+        <label for="rsvpName">Nama</label>
+        <input type="text" id="rsvpName" name="nama" required autocomplete="name" maxlength="60">
+      </div>
+
+      <div class="form-field">
+        <label for="rsvpMessage">Ucapan &amp; Doa</label>
+        <textarea id="rsvpMessage" name="ucapan" rows="4" required maxlength="500"></textarea>
+      </div>
+
+      <fieldset class="form-field form-field--radio">
+        <legend>Konfirmasi Kehadiran</legend>
+        <label class="radio-option">
+          <input type="radio" name="hadir" value="Hadir" required> Hadir
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="hadir" value="Tidak Hadir" required> Tidak Hadir
+        </label>
+      </fieldset>
+
+      <p id="rsvpError" class="rsvp-error" role="alert" hidden></p>
+
+      <button type="submit" id="rsvpSubmit" class="btn btn--primary rsvp-submit">
+        Kirim RSVP
+      </button>
+    </form>
+  </div>
+</section>
+
+<div class="songket-divider" data-songket></div>
+
+<!-- ============================================================ -->
+<!-- 10. HASIL RSVP / UCAPAN TAMU -->
+<!-- ============================================================ -->
+<section id="ucapan" class="ucapan-section">
+  <div class="section-inner" data-reveal>
+    <p class="eyebrow">Doa &amp; Ucapan</p>
+    <h2 class="section-title">Dari Kerabat &amp; Sahabat</h2>
+
+    <div id="ucapanList" class="ucapan-list" aria-live="polite">
+      <p class="ucapan-empty" id="ucapanEmpty">Jadilah yang pertama mengirim doa &amp; ucapan.</p>
+    </div>
+
+    <div class="ucapan-pagination" id="ucapanPagination" hidden>
+      <button type="button" class="btn btn--outline ucapan-pagination__btn" id="ucapanPrev">&larr; Sebelumnya</button>
+      <span class="ucapan-pagination__info" id="ucapanPageInfo">1 / 1</span>
+      <button type="button" class="btn btn--outline ucapan-pagination__btn" id="ucapanNext">Selanjutnya &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 11. FOOTER -->
+<!-- ============================================================ -->
+<footer class="site-footer">
+  <div class="section-inner" data-reveal>
+    <p class="footer__closing">Terima kasih atas doa dan kehadirannya.</p>
+    <p class="footer__salam">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+    <p class="footer__couple">Nadia &amp; Yoesuf</p>
+
+    <div class="footer__social">
+      <a href="https://www.instagram.com/muhammadzakiedii?igsh=MW1tMXQ4MmdsbHRiMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram pembuat undangan">
+        <!-- GANTI: link IG akun developer/pembuat website -->
+        <img src="assets/images/ig-icon.svg" alt="">
+      </a>
+      <a href="https://www.tiktok.com/@qw.zaked?_r=1&_t=ZS-98GiQFJoj0X" target="_blank" rel="noopener noreferrer" aria-label="TikTok pembuat undangan">
+        <!-- GANTI: link TikTok akun developer/pembuat website -->
+        <img src="assets/images/tiktok-icon.svg" alt="">
+      </a>
+    </div>
+
+    <p class="footer__credit">made by @Kidi.qw &middot; 2026</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="script.js"></script>
+</body>
+</html>

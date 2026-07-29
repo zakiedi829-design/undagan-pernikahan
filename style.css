@@ -1,0 +1,1103 @@
+/* ================================================================
+   DESIGN TOKENS — Bagian 6 Master Prompt (WAJIB, tidak diubah)
+   ================================================================ */
+:root {
+  /* Warna */
+  --color-cream: #FAF8F3;      /* Putih Gading — background utama */
+  --color-dark: #2E2E2E;       /* Abu Gelap — teks utama, elemen solid */
+  --color-muted: #6B6B6B;      /* Abu Kalem — teks sekunder/caption */
+  --color-gold: #B08D57;       /* Emas Pudar — aksen tipis saja */
+
+  /* turunan untuk overlay/border, tetap dari palet di atas */
+  --color-cream-dim: #F1EEE5;
+  --color-cream-warm: #F4E9D8;   /* turunan cream+gold, untuk wash/gradient section */
+  --color-gold-deep: #8C6A3E;    /* turunan gold lebih gelap, untuk kontras/teks aksen */
+  --color-gold-10: rgba(176, 141, 87, 0.10);
+  --color-gold-16: rgba(176, 141, 87, 0.16);
+  --color-gold-30: rgba(176, 141, 87, 0.30);
+  --color-dark-70: rgba(46, 46, 46, 0.70);
+
+  /* Tipografi */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Jost', sans-serif;
+  --font-arabic: 'Amiri', serif;
+
+  /* Spacing / layout */
+  --section-max-width: 640px;
+  --section-padding-y: clamp(3.5rem, 9vw, 6rem);
+  --section-padding-x: clamp(1.25rem, 6vw, 2.5rem);
+
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Body dikunci sampai tombol "Buka Undangan" diklik (lihat script.js) */
+body.is-locked {
+  height: 100vh;
+  overflow: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+  color: var(--color-dark);
+}
+
+p { margin: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.section-inner {
+  max-width: var(--section-max-width);
+  margin: 0 auto;
+  padding: var(--section-padding-y) var(--section-padding-x);
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 255, 255, 0.3);
+  font-weight: 500;
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  font-style: italic;
+  margin-bottom: 1.75rem;
+}
+
+.moments-section .section-title {
+  margin-bottom: 1.1rem;
+}
+
+/* Reduced motion — bagian 15 Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* Elemen yang di-reveal via GSAP (script.js) — kondisi awal sebelum discroll.
+   Variasi arah diatur lewat atribut data-reveal="fade-up|fade-left|fade-right|scale" */
+[data-reveal] { opacity: 0; }
+[data-reveal="fade-up"], [data-reveal=""] { transform: translateY(28px); }
+[data-reveal="fade-left"] { transform: translateX(-32px); }
+[data-reveal="fade-right"] { transform: translateX(32px); }
+[data-reveal="scale"] { transform: scale(0.92); }
+
+[data-reveal-group] > * { opacity: 0; transform: scale(0.9); }
+
+/* Khusus hero: bukan reveal berbasis scroll, tapi muncul otomatis begitu
+   halaman selesai dimuat (lihat initHeroIntro() di script.js) */
+[data-reveal-intro] { opacity: 0; }
+[data-reveal-intro="fade-up"] { transform: translateY(28px); }
+[data-reveal-intro="scale"] { transform: scale(0.92); }
+
+.no-js [data-reveal], .no-js [data-reveal-group] > *, .no-js [data-reveal-intro],
+body.reveal-fallback [data-reveal], body.reveal-fallback [data-reveal-group] > *, body.reveal-fallback [data-reveal-intro] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-reveal), opacity 0.35s var(--ease-reveal), background 0.35s ease;
+}
+.btn img { width: 16px; height: 16px; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--color-dark);
+  color: var(--color-cream);
+}
+.btn--primary:hover { background: #3d3d3d; }
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-dark);
+  border-color: var(--color-gold-30);
+}
+.btn--outline:hover { background: var(--color-gold-10); }
+
+/* ================================================================
+   SIGNATURE ELEMENT — Songket Divider (motif pucuk rebung)
+   ================================================================ */
+.songket-divider {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.songket-divider svg { width: 100%; height: auto; display: block; }
+.songket-divider path {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.songket-divider circle { fill: var(--color-gold); }
+
+/* ================================================================
+   SOUND TOGGLE (floating)
+   ================================================================ */
+.sound-toggle {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-30);
+  background: var(--color-cream);
+  color: var(--color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(46, 46, 46, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+body.is-open .sound-toggle { opacity: 1; pointer-events: auto; }
+.sound-toggle img { width: 20px; height: 20px; }
+
+/* ================================================================
+   1. HERO SECTION
+   ================================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-cream-warm);
+  padding-top: clamp(3rem, 12vh, 6rem);
+}
+
+/* --- 6 layer foto asli, ditumpuk & masing-masing dianimasikan beda --- */
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.hero__layer--bg {
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__layer--boat {
+  transform-origin: 50% 62%;
+  animation: heroBoatBob 6s ease-in-out infinite;
+}
+
+.hero__layer--plants {
+  transform-origin: bottom center;
+  animation: heroLeafSway 7.5s ease-in-out infinite;
+}
+
+.hero__layer--frame {
+  /* bingkai ornamen tetap diam — elemen dekoratif statis */
+}
+
+.hero__layer--birds {
+  animation: heroBirdsDrift 9s ease-in-out infinite;
+}
+
+.hero__layer--particles {
+  animation: heroTwinkleDrift 6s ease-in-out infinite;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 30%, rgba(46,46,46,0.08) 55%, rgba(46,46,46,0.35) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--color-dark);
+  padding: 0 1.5rem;
+  max-width: 480px;
+}
+
+.hero__text-card {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(201, 142, 60, 0.45);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 32px rgba(140, 106, 62, 0.16);
+}
+
+/* --- kartu tamu (mengacu referensi: "Dear, [nama tamu]") --- */
+.hero__guest {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(176, 141, 87, 0.55);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 8px 24px rgba(140, 106, 62, 0.12);
+}
+.hero__guest-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-deep);
+  margin-bottom: 0.3rem;
+}
+.hero__guest-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--color-dark);
+  margin-bottom: 0.4rem;
+}
+.hero__guest-note {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.hero__monogram {
+  font-size: clamp(2.8rem, 13vw, 4.6rem);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  margin: 0.4rem 0;
+  color: var(--color-dark);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255,255,255,0.5);
+  font-weight: 600;
+}
+.hero__amp { color: var(--color-gold-deep); }
+
+.hero__names {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25), 0 0 15px rgba(255,255,255,0.4);
+  font-weight: 500;
+}
+.hero__names-sep { color: var(--color-gold-deep); margin: 0 0.4em; }
+
+.hero__date {
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-deep);
+  margin-bottom: 1.75rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255,255,255,0.3);
+}
+
+@keyframes heroKenBurns {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.08) translateY(-1.5%); }
+}
+@keyframes heroBoatBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(0.4deg); }
+}
+@keyframes heroLeafSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(0.8deg); }
+}
+@keyframes heroBirdsDrift {
+  0%, 100% { transform: translate(0, 0); opacity: 0.92; }
+  50% { transform: translate(6px, -8px); opacity: 1; }
+}
+@keyframes heroTwinkleDrift {
+  0%, 100% { opacity: 0.55; transform: translateY(0) scale(1); }
+  50% { opacity: 1; transform: translateY(-6px) scale(1.03); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__layer { animation: none !important; }
+}
+
+/* ================================================================
+   2. VIDEO SECTION
+   ================================================================ */
+.video-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: var(--color-dark);
+}
+.video-section .section-inner { position: relative; z-index: 1; }
+
+.video-frame {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--color-dark);
+  object-fit: cover;
+}
+/* ================================================================
+   3. AYAT SECTION
+   ================================================================ */
+.ayat-section {
+  background: linear-gradient(180deg, var(--color-cream-warm) 0%, var(--color-cream-dim) 100%);
+  position: relative;
+}
+.ayat__inner { max-width: 560px; }
+
+/* Kartu ayat dengan "shadow" emas + glow lembut yang berdenyut pelan */
+.ayat__card {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 100%);
+  border: 1px solid var(--color-gold-16);
+  box-shadow:
+    0 30px 70px -25px var(--color-gold-30),
+    0 10px 30px -12px var(--color-gold-16);
+}
+.ayat__card::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--color-gold-30) 0%, rgba(176,141,87,0) 68%);
+  filter: blur(28px);
+  animation: ayatGlowPulse 5s ease-in-out infinite;
+}
+@keyframes ayatGlowPulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayat__card::before { animation: none; }
+}
+/* ================================================================
+   4. PROFILE MEMPELAI
+   ================================================================ */
+.profil-section {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgba(250, 240, 213, 0.85) 0%, transparent 32%),
+              linear-gradient(160deg, #fffaf0 0%, #f5e7c2 48%, #d7b466 100%);
+}
+
+.profil__florals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.profil__flower {
+  position: absolute;
+  color: var(--color-gold);
+  font-size: 1.6rem;
+  opacity: 0.35;
+  animation: profilFlowerFloat 9s ease-in-out infinite;
+}
+.profil__flower--1 { top: 8%; left: 8%; font-size: 1.3rem; animation-delay: -1s; }
+.profil__flower--2 { top: 14%; right: 10%; font-size: 1.9rem; animation-delay: -4s; animation-duration: 11s; }
+.profil__flower--3 { bottom: 10%; left: 12%; font-size: 1.5rem; animation-delay: -6.5s; animation-duration: 10s; }
+.profil__flower--4 { bottom: 16%; right: 8%; font-size: 1.2rem; animation-delay: -2.5s; animation-duration: 8s; }
+
+@keyframes profilFlowerFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.28; }
+  50% { transform: translateY(-14px) rotate(12deg); opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profil__flower { animation: none !important; }
+}
+
+.profil-section .section-inner { position: relative; z-index: 1; }
+
+.profil__intro {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  margin-bottom: 2.5rem;
+}
+
+.profil__cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.profil__card {
+  position: relative;
+  flex: 1 1 220px;
+  max-width: 240px;
+  padding: 1.25rem 1rem 1.15rem;
+  background: linear-gradient(145deg, #fff8e8 0%, #f2e0b5 50%, #b68a3e 100%);
+  border: 1px solid rgba(176, 141, 87, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(120, 90, 40, 0.16);
+  overflow: hidden;
+}
+.profil__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.26) 0%, transparent 65%);
+  pointer-events: none;
+}
+.profil__card > * { position: relative; z-index: 1; }
+
+.profil__photo-wrap {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto 1rem;
+}
+
+.profil__photo-ornaments {
+  position: absolute;
+  inset: -6px -8px auto auto;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  pointer-events: none;
+}
+
+.profil__photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(176, 141, 87, 0.45);
+  box-shadow: inset 0 0 0 6px rgba(255, 250, 240, 0.45), 0 10px 20px rgba(99, 72, 24, 0.16);
+  background: linear-gradient(145deg, #fdf6e6 0%, #e8d0a2 100%);
+}
+.profil__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.profil__bird {
+  position: absolute;
+  display: block;
+  width: 46px;
+  height: 24px;
+  opacity: 0.86;
+  animation: profilBirdDrift 7s ease-in-out infinite;
+}
+.profil__bird svg {
+  width: 100%;
+  height: 100%;
+}
+.profil__bird path {
+  fill: none;
+  stroke: #6e4f1d;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.profil__bird--1 { top: -4px; left: -10px; }
+.profil__bird--2 { top: 14px; right: -12px; width: 40px; animation-duration: 8s; animation-delay: -2s; }
+
+.profil__petal {
+  position: absolute;
+  display: block;
+  color: #b08d57;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  animation: profilPetalFloat 6s ease-in-out infinite;
+}
+.profil__petal--1 { top: -2px; right: 6px; }
+.profil__petal--2 { bottom: 6px; left: -8px; font-size: 0.95rem; animation-delay: -1.4s; }
+.profil__petal--3 { top: 8px; right: -8px; font-size: 0.95rem; animation-delay: -2.1s; }
+.profil__petal--4 { bottom: 2px; left: -6px; font-size: 1rem; animation-delay: -3.2s; }
+
+@keyframes profilBirdDrift {
+  0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0.72; }
+  50% { transform: translateX(7px) translateY(-6px) rotate(-5deg); opacity: 1; }
+}
+
+@keyframes profilPetalFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.72; }
+  50% { transform: translateY(-8px) rotate(14deg); opacity: 1; }
+}
+
+.profil__name {
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-bottom: 0.4rem;
+}
+.profil__desc {
+  margin-bottom: 0.9rem;
+}
+.profil__desc-label {
+  display: block;
+  color: rgba(46, 46, 46, 0.45);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.3rem;
+}
+.profil__desc-parents {
+  display: block;
+  color: var(--color-dark);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.profil__ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--color-gold-deep);
+  border: 1px solid rgba(176, 141, 87, 0.35);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 250, 240, 0.7);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.profil__ig:hover { background: rgba(255, 250, 240, 0.95); transform: translateY(-1px); }
+.profil__ig img { width: 14px; height: 14px; }
+
+.profil__and {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--color-gold-deep);
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profil__bird, .profil__petal { animation: none !important; }
+}
+
+/* ================================================================
+   5. COUNTDOWN SECTION
+   ================================================================ */
+.countdown-section { background: var(--color-dark); color: var(--color-cream); }
+.countdown-section .eyebrow { color: var(--color-gold); }
+.countdown-section .section-title { color: var(--color-cream); }
+
+.countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  max-width: 420px;
+  margin: 0 auto 2.25rem;
+}
+.countdown__box {
+  border: 1px solid rgba(176, 141, 87, 0.35);
+  border-radius: 10px;
+  padding: 1rem 0.25rem;
+}
+.countdown__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 6vw, 2.4rem);
+  font-weight: 500;
+  color: var(--color-cream);
+}
+.countdown__label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-top: 0.25rem;
+}
+
+.countdown-section .btn--outline {
+  color: var(--color-cream);
+  border-color: var(--color-gold-30);
+}
+.countdown-section .btn--outline:hover { background: rgba(176, 141, 87, 0.14); }
+
+/* ================================================================
+   6. WEDDING EVENT SECTION
+   ================================================================ */
+.acara-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-cream);
+}
+
+.acara__florals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.acara__flower {
+  position: absolute;
+  color: var(--color-gold);
+  font-size: 2.8rem;
+  opacity: 0.4;
+  animation: acaraFlowerFloat 10s ease-in-out infinite;
+}
+.acara__flower--1 { top: 5%; left: 8%; font-size: 2.2rem; animation-delay: -1s; }
+.acara__flower--2 { top: 12%; right: 10%; font-size: 3rem; animation-delay: -3s; animation-duration: 12s; }
+.acara__flower--3 { bottom: 15%; left: 10%; font-size: 2.6rem; animation-delay: -5s; animation-duration: 11s; }
+.acara__flower--4 { bottom: 8%; right: 12%; font-size: 2.4rem; animation-delay: -2s; animation-duration: 9s; }
+.acara__flower--5 { top: 25%; left: 5%; font-size: 2.8rem; animation-delay: -4s; animation-duration: 10.5s; }
+
+@keyframes acaraFlowerFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+  50% { transform: translateY(-20px) rotate(15deg); opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acara__flower { animation: none !important; }
+}
+
+.acara__birds {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.acara__bird-flock {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  animation: acaraFlockFly 16s linear infinite;
+}
+.acara__bird-path { animation: heroBirdFlap 0.85s ease-in-out infinite; transform-origin: center; }
+.acara__bird-path--2 { animation-delay: -0.25s; }
+.acara__bird-path--3 { animation-delay: -0.5s; }
+
+@keyframes acaraFlockFly {
+  0% { left: -10%; opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { left: 105%; opacity: 0; }
+}
+@keyframes heroBirdFlap {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acara__bird-flock, .acara__bird-path { animation: none !important; }
+}
+
+.acara__cards {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.acara__card {
+  flex: 1 1 240px;
+  max-width: 260px;
+  background: linear-gradient(160deg, var(--color-dark) 0%, #3d3d3d 100%);
+  border: 1px solid var(--color-gold);
+  border-radius: 14px;
+  padding: 2rem 1.25rem;
+  color: var(--color-cream);
+  box-shadow: 0 14px 32px rgba(46,46,46,0.18);
+}
+.acara__title {
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-bottom: 0.6rem;
+  color: var(--color-gold);
+}
+.acara__date { font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--color-cream); }
+.acara__time { font-size: 0.85rem; color: rgba(250,248,243,0.7); margin-bottom: 0.9rem; }
+.acara__place {
+  font-size: 0.85rem;
+  color: rgba(250,248,243,0.7);
+  margin-bottom: 1.4rem;
+  min-height: 2.6em;
+}
+.acara__card .btn--outline {
+  color: var(--color-cream);
+  border-color: var(--color-gold-30);
+}
+.acara__card .btn--outline:hover { background: rgba(176,141,87,0.18); }
+
+/* ================================================================
+   6b. MOMENTS SECTION (galeri foto)
+   ================================================================ */
+.moments-section { background: linear-gradient(160deg, var(--color-gold) 0%, var(--color-gold-deep) 100%); }
+.moments-section .eyebrow { color: var(--color-dark); opacity: 0.7; }
+.moments-section .section-title { color: var(--color-cream); }
+.moments__intro { font-size: 0.9rem; color: rgba(46,46,46,0.75); margin-bottom: 1.2rem; }
+.section-inner--wide { max-width: 760px; }
+
+.moments__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+.moments__item {
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+}
+.moments__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-reveal);
+}
+.moments__item:hover img { transform: scale(1.08); }
+
+/* Layout: 1 foto landscape penuh di atas, 2 foto potret berdampingan di bawah */
+.moments__item--wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 3;
+}
+.moments__item--tall {
+  aspect-ratio: 3 / 4;
+}
+
+/* ================================================================
+   7. LOVE STORY SECTION (murni teks, gaya Referensi 2)
+   ================================================================ */
+.love-story-section {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-gold-16) 55%, var(--color-cream-dim) 100%);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  border-left: 2px solid var(--color-gold);
+  max-width: 460px;
+  margin-inline: auto;
+}
+.timeline__item {
+  position: relative;
+  padding: 0 0 2.25rem 1.75rem;
+}
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -5.5px;
+  top: 0.4rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-cream);
+}
+.timeline__year {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-cream);
+  background: var(--color-dark);
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+.timeline__body h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-dark);
+}
+.timeline__body p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+/* ================================================================
+   8. KADO DIGITAL SECTION
+   ================================================================ */
+.kado-section {
+  background: linear-gradient(160deg, var(--color-dark) 0%, #3d3d3d 100%);
+}
+.kado-section .eyebrow { color: var(--color-gold); }
+.kado-section .section-title { color: var(--color-cream); }
+.kado__intro { font-size: 0.9rem; color: rgba(250,248,243,0.72); margin-bottom: 2.25rem; }
+
+.kado__cards {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.kado__card {
+  flex: 1 1 220px;
+  max-width: 240px;
+  background: var(--color-cream);
+  border: 1px solid var(--color-gold);
+  border-radius: 14px;
+  padding: 1.75rem 1.25rem;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.22);
+}
+.kado__bank { font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.4rem; }
+.kado__number {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
+}
+.kado__owner { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1.1rem; }
+.kado__copy { width: 100%; }
+.kado__copy.is-copied { background: var(--color-gold); color: var(--color-cream); border-color: var(--color-gold); }
+
+/* ================================================================
+   9. RSVP FORM SECTION
+   ================================================================ */
+.rsvp-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-cream-warm) 0%, var(--color-cream) 100%);
+}
+
+/* dekorasi kapal melayang tipis di latar, mengacu referensi Lancang Kuning hero */
+.rsvp__boat-decor {
+  position: absolute;
+  bottom: -4%;
+  right: -8%;
+  width: 260px;
+  max-width: 55%;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
+  animation: heroBoatBob 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rsvp__boat-decor { animation: none !important; }
+}
+
+.rsvp-section .section-inner { position: relative; z-index: 1; }
+
+.rsvp-form { text-align: left; }
+.form-field { margin-bottom: 1.25rem; }
+.form-field label,
+.form-field legend {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+  padding: 0;
+  border: 0;
+}
+.form-field input[type="text"],
+.form-field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-dark);
+  background: var(--color-cream);
+  border: 1px solid var(--color-gold-30);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  resize: vertical;
+}
+.form-field input[type="text"]:focus,
+.form-field textarea:focus { border-color: var(--color-gold); }
+
+.form-field--radio { display: flex; gap: 1.5rem; }
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-dark);
+  cursor: pointer;
+}
+.radio-option input { accent-color: var(--color-gold); }
+
+.rsvp-error {
+  font-size: 0.82rem;
+  color: #A5443A;
+  margin-bottom: 1rem;
+}
+
+.rsvp-submit { width: 100%; margin-top: 0.5rem; }
+.rsvp-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* ================================================================
+   10. UCAPAN / HASIL RSVP SECTION
+   ================================================================ */
+.ucapan-section { background: var(--color-cream-dim); }
+
+.ucapan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.ucapan-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ucapan-pagination__btn { font-size: 0.75rem; padding: 0.65rem 1.1rem; }
+.ucapan-pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+.ucapan-pagination__info {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  letter-spacing: 0.06em;
+}
+.ucapan-empty {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+.ucapan-card {
+  border: 1px solid var(--color-gold-30);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+}
+.ucapan-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+.ucapan-card__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+.ucapan-card__status {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-gold-30);
+  color: var(--color-gold);
+  white-space: nowrap;
+}
+.ucapan-card__status--hadir { color: #4C7A5E; border-color: rgba(76,122,94,0.35); }
+.ucapan-card__status--tidak { color: var(--color-muted); }
+.ucapan-card__text { font-size: 0.88rem; color: var(--color-muted); }
+
+/* ================================================================
+   11. FOOTER
+   ================================================================ */
+.site-footer { background: var(--color-dark); color: var(--color-cream); }
+.footer__closing { font-size: 0.9rem; color: rgba(250,248,243,0.75); margin-bottom: 0.5rem; }
+.footer__salam { font-size: 0.85rem; color: rgba(250,248,243,0.6); margin-bottom: 1.25rem; }
+.footer__couple {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+.footer__social { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+.footer__social a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cream);
+  transition: background 0.3s ease;
+}
+.footer__social a:hover { background: rgba(176,141,87,0.16); }
+.footer__social img { width: 18px; height: 18px; }
+.footer__credit { font-size: 0.72rem; color: rgba(250,248,243,0.4); }
+
+/* ================================================================
+   RESPONSIVE — bagian 12 (mobile-first, breakpoint 480 / 768 / 1024)
+   ================================================================ */
+@media (min-width: 480px) {
+  .kado__number { font-size: 1.5rem; }
+}
+
+@media (min-width: 768px) {
+  .section-title { font-size: clamp(2.1rem, 4vw, 2.8rem); }
+  .profil__cards { gap: 3rem; }
+  .acara__cards { gap: 2.5rem; }
+}
+
+@media (min-width: 1024px) {
+  :root { --section-padding-y: 7rem; }
+}

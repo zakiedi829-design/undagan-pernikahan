@@ -206,14 +206,13 @@ function initHeroOpen() {
       document.getElementById("video")?.scrollIntoView({ behavior: "smooth" });
     });
 
-    // Delay video play agar scroll sudah selesai terlebih dahulu
+   // Delay video play agar scroll sudah selesai terlebih dahulu
+    // Video sengaja TETAP muted (bisu) — supaya musik backsound yang
+    // terus terdengar, tidak direbut/diinterupsi oleh audio video
+    // (di iOS, video bersuara akan otomatis membisukan audio lain).
     setTimeout(() => {
       if (introVideo) {
-        introVideo.muted = false;
-        introVideo.play().catch(() => {
-          introVideo.muted = true;
-          introVideo.play().catch(() => {});
-        });
+        introVideo.play().catch(() => {});
       }
     }, 600);
 

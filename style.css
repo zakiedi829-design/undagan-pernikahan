@@ -485,6 +485,34 @@ body.is-open .sound-toggle { opacity: 1; pointer-events: auto; }
 
 .profil-section .section-inner { position: relative; z-index: 1; }
 
+.profil__ship {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: -6%;
+  width: clamp(110px, 26vw, 220px);
+  transform: translateY(-50%);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: profilShipFloat 8s ease-in-out infinite;
+}
+.profil__ship img { display: block; width: 100%; height: auto; }
+
+@keyframes profilShipFloat {
+  0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+  50%      { transform: translateY(calc(-50% - 10px)) translateX(-4px) rotate(-2deg); }
+}
+
+@media (max-width: 640px) {
+  .profil__ship {
+    top: auto;
+    bottom: 4%;
+    right: -10%;
+    width: clamp(90px, 34vw, 150px);
+    opacity: 0.4;
+  }
+}
+
 .profil__intro {
   font-size: 0.95rem;
   color: var(--color-muted);

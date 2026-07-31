@@ -828,31 +828,41 @@ body.is-open .sound-toggle { opacity: 1; pointer-events: auto; }
 
 .moments__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 0.6rem;
 }
 .moments__item {
   margin: 0;
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 1 / 1;
   border: 2px solid rgba(255, 255, 255, 0.55);
 }
 .moments__item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(var(--zoom, 1));
   transition: transform 0.6s var(--ease-reveal);
 }
-.moments__item:hover img { transform: scale(1.08); }
+.moments__item:hover img { transform: scale(calc(var(--zoom, 1) * 1.08)); }
 
-/* Layout: 1 foto landscape penuh di atas, 2 foto potret berdampingan di bawah */
-.moments__item--wide {
-  grid-column: 1 / -1;
-  aspect-ratio: 4 / 3;
-}
-.moments__item--tall {
+/* p1 = potret, 2 sejajar (masing-masing setengah lebar) */
+.moments__item--p1 {
+  grid-column: span 6;
   aspect-ratio: 3 / 4;
+}
+
+/* l1 = landscape, penuh 1 baris */
+.moments__item--l1 {
+  grid-column: span 12;
+  aspect-ratio: 16 / 9;
+}
+
+/* p-center = ukuran & rasio SAMA kayak p1 (span 6, aspect 3/4),
+   tapi diposisikan di tengah karena cuma sendirian di barisnya */
+.moments__item--p-center {
+  grid-column: 4 / 10;
+  aspect-ratio: 3 / 4 ;
 }
 
 /* ================================================================
